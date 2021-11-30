@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>3D SNAKE GAME -Divine203</title>
+</head>
+<body>
+	<div class="score-cont">
+			<p class="score">0</p>
+	</div>
+
+	<div class="canvas-cont">
+		<div class="canvas">
+			<!-- <div class="snake"></div> -->
+			<!-- <div class="fruit"></div> -->
+		</div>
+	</div>
+
+	<div class="menu">
+		<div class="intro-cont">
+			<p>
+				<span>3</span>
+				<span>D</span> 
+				<span>Snake</span>
+			</p>	
+		</div>
+		<div class="btn-cont">
+			<button class="start-btn" onclick="startGame()"><b>START</b></button>
+		</div>
+	</div>
+
+
+
+	<!----------------SELECT LEVEL--------------------->
+
+	<div class="menu-select-cont">
+		<div class="menu-select">
+			<p>Select level</p>
+
+			<div>
+				<button class="easy" onclick="easy()">Easy</button>
+			</div>
+			<div>
+					<button class="medium" onclick="medium()">Medium</buttpn>
+			</div>
+			<div>
+				<button class="hard" onclick="hard()">Hard</button>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+<style>
+	body{
+		margin: 0;
+		padding: 0;
+		background: #111;
+		overflow: hidden;
+
+	}	
+
+	/************** score style *************/
+	.score-cont{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: comic sans ms;
+		font-size: 2em;
+		color: #111;
+	}
+	.score{
+		opacity: 0;
+	}
+
+	/************** TRANSITION **************/
+	.show-canvas{
+		animation: showCvs 1s forwards linear 0s;
+	}
+	@keyframes showCvs{
+		from{
+			opacity: 0;
+		}
+		to{
+			opacity: 1;
+		}
+	}
+
+	.canvas-cont{
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		top: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0;
+		transform-style: preserve-3d;
+		perspective: 1000px;
+		overflow: hidden;
+		opacity: 0;
+	}
+
+
+
+
+
+
+
+
+
+	.canvas{
+		/*border: 2px solid black;*/
+		background: #111;
+		width: 630px;
+		height: 630px;
+		display: grid;
+		grid-template-rows: repeat(21, 1fr);
+		grid-template-columns: repeat(21, 1fr);
+		transform: rotateX(50deg);
+		transform-style: preserve-3d;
+		animation: rotate 160s infinite 0s;
+	}
+	@keyframes rotate{
+		0%{
+			transform: rotateX(50deg) rotate(0deg);
+		}
+		50%{
+			transform: rotateX(50deg) rotate(35deg);
+		}
+		100%{
+			transform: rotateX(50deg) rotate(0deg);
+		}
+	}
+	.snake{
+		background: linear-gradient(darkgreen, green);
+		transform-style: preserve-3d;
+	}
+
+			.front-snake{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkgreen, green);
+				transform: translateZ(30px);
+			}
+			.back-snake{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkgreen, green);
+				position: absolute;
+				top: 0;
+			}
+			.left-snake{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkgreen, green);
+				position: absolute;
+				top: 0;
+				left: -30px;
+				transform: rotateY(90deg);
+				transform-origin: right;
+			}
+			.right-snake{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkgreen, green);
+				position: absolute;
+				top: 0;
+				left: 30px;
+				transform: rotateY(-90deg);
+				transform-origin: left;
+			}
+			.top-snake{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkgreen, green);
+				position: absolute;
+				top: -30px;
+				transform: rotateX(-90deg);
+				transform-origin: bottom;
+			}
+			.bottom-snake{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkgreen, green);
+				position: absolute;
+				top: 30px;
+				transform: rotateX(90deg);
+				transform-origin: top;
+			}
+
+	.fruit{
+		/*border: 1px solid #000;*/
+		background: red;
+		transform-style: preserve-3d;
+	}
+			.front-fruit{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkred, red);
+				transform: translateZ(30px);
+			}
+			.back-fruit{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkred, red);
+				position: absolute;
+				top: 0;
+			}
+			.left-fruit{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkred, red);
+				position: absolute;
+				top: 0;
+				left: -30px;
+				transform: rotateY(90deg);
+				transform-origin: right;
+			}
+			.right-fruit{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkred, red);
+				position: absolute;
+				top: 0;
+				left: 30px;
+				transform: rotateY(-90deg);
+				transform-origin: left;
+			}
+			.top-fruit{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkred, red);
+				position: absolute;
+				top: -30px;
+				transform: rotateX(-90deg);
+				transform-origin: bottom;
+			}
+			.bottom-fruit{
+				width: 30px;
+				height: 30px;
+				background: linear-gradient(darkred, red);
+				position: absolute;
+				top: 30px;
+				transform: rotateX(90deg);
+				transform-origin: top;
+			}
+
+
+
+
+
+
+
+
+			.menu{
+				opacity: 1;
+			}
+
+	
+	.intro-cont{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		top: 50px;
+		transform: skew(-7deg);
+		animation: move 2s infinite 0s;
+	}
+
+		@keyframes move{
+		0%{
+			top: 50px;
+		}
+		50%{
+			top: 90px;
+		}
+		100%{
+			top: 50px;
+		}
+	}
+
+	.intro-cont p{
+		font-size: 3.5rem;
+		font-family: comic sans ms;
+		color: #fff;
+		text-shadow: 1px 1px 0 #ccc,
+					 2px 2px 0 #ccc,
+					 3px 3px 0 #ccc,
+					 4px 4px 0 #ccc,
+					 5px 5px 0 #ccc,
+					 10px 10px 0 #000;
+	}
+	.intro-cont p > span:nth-of-type(1){
+		color: red;
+		text-shadow: 1px 1px 0 darkred,
+					 2px 2px 0 darkred,
+					 3px 3px 0 darkred,
+					 4px 4px 0 darkred,
+					 5px 5px 0 darkred,
+					 10px 10px 0 #000;
+	}
+	.intro-cont p > span:nth-of-type(2){
+		color: green;
+		text-shadow: 1px 1px 0 darkgreen,
+					 2px 2px 0 darkgreen,
+					 3px 3px 0 darkgreen,
+					 4px 4px 0 darkgreen,
+					 5px 5px 0 darkgreen,
+					 10px 10px 0 #000;
+	}
+	.btn-cont{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+	}
+
+		.start-btn{
+			padding: 1em 3em;
+			background: linear-gradient(darkred, red);
+			margin-top: 80px;
+			color: #fff;
+			border: 0;
+			border-radius: 2em;
+			font-family: comic sans ms;
+			box-shadow: 1px 1px 0 darkred,
+					 2px 2px 0 darkred,
+					 3px 3px 0 darkred,
+					 4px 4px 0 darkred,
+					 5px 5px 0 darkred,
+					 10px 10px 0 #000;
+			cursor: pointer;
+			transition-duration: .3s;
+		}
+		.start-btn:hover{
+			padding: 1em 4em;
+			/*background: linear-gradient(red, darkred);*/
+		}
+
+		
+
+
+
+
+
+		/************************SELECT LEVEL*********************/
+		.menu-select-cont{
+			height: 100vh;
+			width: 100vw;
+			background: #111;
+			opacity: 1;
+			position: absolute;
+			top: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: -1em;
+		}
+				/******************TRANSITIONS******************/
+				.show-levels{
+					animation: shows .8s forwards ease-in 0s;
+				}
+				@keyframes shows{
+					0%{ 
+						top: 100vh;
+					}
+					100%{ 
+						 top: 0;
+					}
+					/*background: orange;*/
+				}
+
+
+		.menu-select{
+			color: #fff;
+			font-size: 3.5rem;
+			font-family: comic sans ms;
+			text-align: center;
+			text-shadow: 1px 1px 0 #ccc,
+					 2px 2px 0 #ccc,
+					 3px 3px 0 #ccc,
+					 4px 4px 0 #ccc,
+					 5px 5px 0 #ccc,
+					 10px 10px 0 #000;
+		}
+		.easy{
+			background: linear-gradient(darkgreen, green);
+			box-shadow: 1px 1px 0 darkgreen,
+					 2px 2px 0 darkgreen,
+					 3px 3px 0 darkgreen,
+					 4px 4px 0 darkgreen,
+					 5px 5px 0 darkgreen,
+					 10px 10px 0 #000;
+			color: #fff;
+		}
+		.medium{
+			background: linear-gradient(orange, yellow);
+			box-shadow: 1px 1px 0 orange,
+					 2px 2px 0 orange,
+					 3px 3px 0 orange,
+					 4px 4px 0 orange,
+					 5px 5px 0 orange,
+					 10px 10px 0 #000;
+			color: #000;
+		}
+		.hard{
+			background: linear-gradient(darkred, red);
+			box-shadow: 1px 1px 0 darkred,
+					 2px 2px 0 darkred,
+					 3px 3px 0 darkred,
+					 4px 4px 0 darkred,
+					 5px 5px 0 darkred,
+					 10px 10px 0 #000;
+			color: #fff;
+		}
+		.menu-select button{
+			padding: 1em 3em;
+			margin-top: 80px;
+			border: 0;
+			border-radius: 2em;
+			font-family: comic sans ms;
+			cursor: pointer;
+			transition-duration: .3s;
+		}
+		button:hover{
+			padding: 1em 4em;
+			/*background: linear-gradient(red, darkred);*/
+		}
+		.menu-select div{
+			margin-top: 0px;
+		}
+		}
+
+
+	
+</style>
+<script src="scriptSnake.js"></script>
+</html>
